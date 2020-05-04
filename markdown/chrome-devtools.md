@@ -1,4 +1,3 @@
-[TOC]
 # Chrome DevTools 使用备忘录
 > Chrome 开发者工具是一套内置于Google Chrome中的Web开发和调试工具，可用来对网站进行迭代、调试和分析。
 

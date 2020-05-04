@@ -1,4 +1,3 @@
-[TOC]
 # Developer Notes
 
 ## [博客专栏](https://www.yuque.com/dwqyun/aaz4ic)
@@ -6,6 +5,7 @@
 ## Javascript
 ---
 ## CSS
+- [`CSS 选择器世界`读书笔记](markdown/css-selector-world.md)
 ---
 ## HTML
 ---

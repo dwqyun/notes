@@ -83,8 +83,30 @@
 - 字母i忽略属性值大小写正则匹配运算符，如`[data-search]:not([data-search*="value" i]) { display: none }`
 ---
 ## 7. 用户行为伪类
+### 手型经过伪类:hover
+- :hover用于移动端虽然可以触发但消失不敏捷，常用于桌面端网页，实现按钮颜色变化、tips提升或下拉等效果
+- :hover延时体验优化，使用后代或兄弟节点+`visibility`属性+CSS `transition`设置延迟显示,transition对display无过度效果
+- 需要注意带交互效果的的行为，还要辅以其他手段优化体验，如结合:focus伪类优化用户不能:hover时的体验
+### 激活状态伪类:active
+- 点按触发元素激活时的样式，支持任意HTML元素包括自定义元素，键盘访问无法触发，主要用于反馈点击使得交互，不适用于复杂的交互
+- 移动端图片可以使用`outline`+`clip-path`实现通用的:active反馈效果，body适用`-webkit-tap-highlight-color`，按钮链接类使用 `linear-gradient`
+- 使用:active+伪元素给按钮埋点，如`.button-1:active::after {content: url(./pixel.gif?action=click&id=button1); display: none;}`
+### 焦点伪类:focus
+- 只匹配特定的元素，非disabled状态的表单元素(如input、select、button)、包含href属性的a元素、area元素、summary元素，普通元素需要设置`contenteditable``或tabindex`属性，一个页面只会有一个焦点元素只有这个元素响应:focus样式
+- 浏览器已经优化了点击链接显示轮廓的体验，`* ｛ outline: 0 none; ｝`这类无差别重置outline的写法没必要且会影响使用键盘进行无障碍访问，focus时通过虚框发光仪标记用户目前访问的元素是很有必要的
+- :focus伪类与无障碍访问密切相关，span、div元素可以模拟按钮UI效果，但不支持button的原生属性需要额外加tab键索引或`role=button`，可以使用label元素模拟按钮效果，方便保留语义和原生行为，如input和label关联嵌套，可以使用`position: absolute; clip: rect(0 0 0 0);`隐藏input标签，或`opacity: 0`隐藏，`visibility: hidden`和`display: none`的隐藏会导致键盘无法聚焦
+### 整体焦点伪类:focus-within
+- 与:focus伪类不同的是，:focus-within伪类样式在当前元素或当前元素的任意子元素处于聚焦状态时都会匹配，子元素聚焦可以使父级元素样式发生变化，属于“父选择器”行为，但需要用户行为触发属于后渲染，不与现有的渲染机制相冲突
+- :focus-within可实现无障碍访问的下拉列表交互，聚焦子元素时都会触发父元素设置的:focus-within伪类样式使下拉列表保持显示状态
+### 键盘焦点伪类:focus-visible
+- :focus-visible伪类匹配场景是，元素聚焦且浏览器认为聚焦轮廓应该显示，可以解决Chrome下鼠标点击访问时的轮廓显示问题，浏览器认为使用键盘访问触发的元素聚焦才是:focus-visible表示的聚焦，`:focus:not(:focus-visible) { outline: 0; }`即可以去除Chrome下鼠标点击时的outline而暴力流键盘访问时的outline
 ---
 ## 8. URL定位伪类
+### 链接历史伪类:link和:visited
+- :link伪类匹配页面上href链接没有访问过的a元素，a、link、area都支持盒饭属性，但:link伪类只能匹配a元素；:visited匹配访问过的a元素，一般使用a标签选择器设置默认链接颜色，有其他需求才使用伪类；a标签选择器会匹配无href属性a元素，但:link只会匹配有href属性的a元素，实际使用中可以使用`[href]`属性选择器替代a标签选择器
+- :visited伪类只支持color相关的CSS属性且不支持::before和:after这些伪元素；使用:visited控制颜色表现只支持纯色或透明；且只能重置默认已有的颜色，不能凭空设置颜色；使用getComputedStyle无法获取:visited设置的颜色值
+###  超链接伪类:any-link
+- 相对:link伪类和a标签选择器效果无差别且a标签设置更简单的情况，`:any-link`可以匹配所有href属性的链接元素，且匹配:link或:visited伪类的元素，也可以精确识别href属性元素，是真正意义上的链接伪类
 ---
 ## 9. 输入伪类
 ---

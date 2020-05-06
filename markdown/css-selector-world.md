@@ -107,6 +107,11 @@
 - :visited伪类只支持color相关的CSS属性且不支持::before和:after这些伪元素；使用:visited控制颜色表现只支持纯色或透明；且只能重置默认已有的颜色，不能凭空设置颜色；使用getComputedStyle无法获取:visited设置的颜色值
 ###  超链接伪类:any-link
 - 相对:link伪类和a标签选择器效果无差别且a标签设置更简单的情况，`:any-link`可以匹配所有href属性的链接元素，且匹配:link或:visited伪类的元素，也可以精确识别href属性元素，是真正意义上的链接伪类
+### 目标伪类:target
+- URL瞄点即hash值可以和页面中id匹配的元素进行瞄定，浏览器默认行为是触发滚动定位，同时进行:target伪类匹配，如果瞄点元素是display:none则浏览器不会触发任何滚动但可以匹配:target伪类样式
+- :target的交互布局技术，结合a标签和兄弟选择器实现展开收起效果(可以通过URL记住当前页面交互状态)、结合隐藏的瞄链元素、兄弟选择及JS类名绑定实现选项卡tab效果
+### 目标容器伪类:target-within
+- :target-within可以匹配:target伪类匹配的元素，或者匹配存在后代元素(包括文本节点)匹配:target伪类的元素，含义与:focus-within类似但兼容性欠佳
 ---
 ## 9. 输入伪类
 ---

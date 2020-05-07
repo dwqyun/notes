@@ -111,9 +111,36 @@
 - URL瞄点即hash值可以和页面中id匹配的元素进行瞄定，浏览器默认行为是触发滚动定位，同时进行:target伪类匹配，如果瞄点元素是display:none则浏览器不会触发任何滚动但可以匹配:target伪类样式
 - :target的交互布局技术，结合a标签和兄弟选择器实现展开收起效果(可以通过URL记住当前页面交互状态)、结合隐藏的瞄链元素、兄弟选择及JS类名绑定实现选项卡tab效果
 ### 目标容器伪类:target-within
-- :target-within可以匹配:target伪类匹配的元素，或者匹配存在后代元素(包括文本节点)匹配:target伪类的元素，含义与:focus-within类似但兼容性欠佳
+- :target-within可以匹配:target伪类匹配的元素，或者匹配存在后代元素(包括文本节点)匹配:target伪类的元素，含义与:focus-within类似但浏览器尚未支持兼容性欠佳
 ---
 ## 9. 输入伪类
+### 输入控件状态
+- 可用状态与禁用状态伪类:enabled和:disabled，两者对立，:enabled在CSS开发中有些鸡肋，表单元素默认就是enabled状态，不需要额外的:enabled伪类匹配；在JS中可以使用`document.querySelectorAll('form:enabled')`查询所有可用表单元素，以实现自定义表单序列化方法，:disabled常用于按钮，设置按钮DOM属性disabled=true即可，对于a元素常使用`pointer-events:none`控制点击无效，但tab键盘仍然可以访问且回车键也可以触发点击事件，属于伪禁用，同时元素的title无法显示，可用性降低，所以尽量使用原生按钮实现交互效果
+- 读写特性伪类:read-only和:read-write，用于匹配是否可读和是否可读可写，只作用于input和textarea元素，由于输入框默认状态就是:read-write所以很少使用，一般使用:read-only对处于readonly状态的输入框进行样式重置，readonly和disabled区别在于，readonly可以被表单提交，而disabled不能被表单提交且文字会被置灰
+- 占位显示伪类:placeholder-shown，当输入框的placeholder内容显示时匹配该输入框，而placeholder只在输入框空值状态才显示，即可以根据:placeholder-shown伪类判断输入框是否有值可用于必填内容验证提示交互，也可用于纯CSS实现Material Design风格占位文本交互效果，主要使用绝对定位的label根据是否聚焦和placeholder是否可见来进行label的变形效果，代码如下
+```html
+<div class="input-fill-x">
+  <input class="input-fill" placeholder="邮箱">
+  <label class="input-label">邮箱</label>
+```
+```css
+.input-fill-x {
+  position: relative;
+}
+.input-label {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  pointer-events: none;
+}
+.input-fill:not(:placeholder-shown) ~ .input-label,
+.input-fill:focus ~ .input-label {
+  transform: scale(0.75) translate(0, -32px);
+}
+- 默认选项伪类:default，只作用域处于默认状态的表单元素，如select元素下的默认option，凸显用户选择一组数据时仍可知道默认选项是什么，增强了用户体验；:default虽然是用于标记默认状态避免混淆，但更重要的实际价值可以用于`推荐标记`，如支付方式中默认选中微信，选项为"微信(推荐)"，可以使用:default伪类使默认状态为checked的选项自动加推荐标记，方便维护，如`input:default + label::after { content: ' (推荐) ' }`
+### 输入值状态
+```
+### 
 ---
 ## 10. 树结构伪类
 ---

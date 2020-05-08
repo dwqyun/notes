@@ -96,7 +96,7 @@
 - 浏览器已经优化了点击链接显示轮廓的体验，`* ｛ outline: 0 none; ｝`这类无差别重置outline的写法没必要且会影响使用键盘进行无障碍访问，focus时通过虚框发光仪标记用户目前访问的元素是很有必要的
 - :focus伪类与无障碍访问密切相关，span、div元素可以模拟按钮UI效果，但不支持button的原生属性需要额外加tab键索引或`role=button`，可以使用label元素模拟按钮效果，方便保留语义和原生行为，如input和label关联嵌套，可以使用`position: absolute; clip: rect(0 0 0 0);`隐藏input标签，或`opacity: 0`隐藏，`visibility: hidden`和`display: none`的隐藏会导致键盘无法聚焦
 ### 整体焦点伪类:focus-within
-- 与:focus伪类不同的是，:focus-within伪类样式在当前元素或当前元素的任意子元素处于聚焦状态时都会匹配，子元素聚焦可以使父级元素样式发生变化，属于“父选择器”行为，但需要用户行为触发属于后渲染，不与现有的渲染机制相冲突
+- 与:focus伪类不同的是，`:focus-within`伪类样式在当前元素或当前元素的任意子元素处于聚焦状态时都会匹配，子元素聚焦可以使父级元素样式发生变化，属于“父选择器”行为，但需要用户行为触发属于后渲染，不与现有的渲染机制相冲突
 - :focus-within可实现无障碍访问的下拉列表交互，聚焦子元素时都会触发父元素设置的:focus-within伪类样式使下拉列表保持显示状态
 ### 键盘焦点伪类:focus-visible
 - :focus-visible伪类匹配场景是，元素聚焦且浏览器认为聚焦轮廓应该显示，可以解决Chrome下鼠标点击访问时的轮廓显示问题，浏览器认为使用键盘访问触发的元素聚焦才是:focus-visible表示的聚焦，`:focus:not(:focus-visible) { outline: 0; }`即可以去除Chrome下鼠标点击时的outline而暴力流键盘访问时的outline
@@ -117,7 +117,7 @@
 ### 输入控件状态
 - 可用状态与禁用状态伪类:enabled和:disabled，两者对立，:enabled在CSS开发中有些鸡肋，表单元素默认就是enabled状态，不需要额外的:enabled伪类匹配；在JS中可以使用`document.querySelectorAll('form:enabled')`查询所有可用表单元素，以实现自定义表单序列化方法，:disabled常用于按钮，设置按钮DOM属性disabled=true即可，对于a元素常使用`pointer-events:none`控制点击无效，但tab键盘仍然可以访问且回车键也可以触发点击事件，属于伪禁用，同时元素的title无法显示，可用性降低，所以尽量使用原生按钮实现交互效果
 - 读写特性伪类:read-only和:read-write，用于匹配是否可读和是否可读可写，只作用于input和textarea元素，由于输入框默认状态就是:read-write所以很少使用，一般使用:read-only对处于readonly状态的输入框进行样式重置，readonly和disabled区别在于，readonly可以被表单提交，而disabled不能被表单提交且文字会被置灰
-- 占位显示伪类:placeholder-shown，当输入框的placeholder内容显示时匹配该输入框，而placeholder只在输入框空值状态才显示，即可以根据:placeholder-shown伪类判断输入框是否有值可用于必填内容验证提示交互，也可用于纯CSS实现Material Design风格占位文本交互效果，主要使用绝对定位的label根据是否聚焦和placeholder是否可见来进行label的变形效果，代码如下
+- 占位显示伪类`:placeholder-shown`，当输入框的placeholder内容显示时匹配该输入框，而placeholder只在输入框空值状态才显示，即可以根据:placeholder-shown伪类判断输入框是否有值可用于必填内容验证提示交互，也可用于纯CSS实现Material Design风格占位文本交互效果，主要使用绝对定位的label根据是否聚焦和placeholder是否可见来进行label的变形效果，代码如下
 ```html
 <div class="input-fill-x">
   <input class="input-fill" placeholder="邮箱">
@@ -137,9 +137,64 @@
 .input-fill:focus ~ .input-label {
   transform: scale(0.75) translate(0, -32px);
 }
+```
 - 默认选项伪类:default，只作用域处于默认状态的表单元素，如select元素下的默认option，凸显用户选择一组数据时仍可知道默认选项是什么，增强了用户体验；:default虽然是用于标记默认状态避免混淆，但更重要的实际价值可以用于`推荐标记`，如支付方式中默认选中微信，选项为"微信(推荐)"，可以使用:default伪类使默认状态为checked的选项自动加推荐标记，方便维护，如`input:default + label::after { content: ' (推荐) ' }`
 ### 输入值状态
+- 选中选项伪类:checked，匹配结果与[checked]属性选择器一样，但:checked只能匹配标准的表单控件元素，而[checked]属性选择器可以与任意元素匹配；`[checked]属性变化并非实时`的，所以不建议使用[checked]属性选择器控制表单复选框选中状态样式；伪类可以正确匹配从祖先元素继承的状态，而属性选择器不行如`<fieldset disabled><input></fieldset>`中fieldset设置disabled，内部元素input也会处于禁用状态，:disabled伪类可以匹配，[disabled]属性选择器不行
+- 单复选框元素显隐技术，可以使用:checked伪类结合多label元素及兄弟选择器实现自定义单复选框、开关效果，祖先元素相对定位包裹绝对定位的input元素和label模拟元素，input使用opacity或clip隐藏；还可以实现标签/列表/素材的选择效果，可加以计数器和伪类标记选中元素
+- 不确定值伪类:indeterminate，复选框处选中和非选中外，还有半选状态，多用于包含全选功能列表中，半选状态只能通过JS设置`checkbox.indeterminate = true;`，可以匹配复选框、单选框以及进度条元素progress；复选框是部分选中时匹配。单选框时多个name属性值一致但都没有选中时匹配，而进度条是未设置值时则匹配:indeterminate
+### 输入值验证
+- 有效验证伪类:valid:invalid，这两个伪类会在页面加载时就会匹配表单元素，新出的:user-invalid伪类则是需要用户交互后才触发但未成熟，可以在用户提交表单时通过给表单添加特定类名触发验证效果，form元素原生方法checkVaildity可以返回整个表单是否验证通过的布尔值
+- 范围验证伪类:in-range和:out-of-range，常用于匹配number或range类型的输入框，可以结合:invalid伪类细化输入框出错时的提升信息
+- 可选性伪类:required和:optional，设置了required和属性的表单表示必填，会匹配:required伪类，:optional伪类则与:required对立，可用于实现问卷调查的必选和可选效果，项使用ol和li元素嵌套，li元素使用`display:table`布局，问题文本标签使用`display:table-caption`用于改变元素的上下呈现位置，li元素的序号使用CSS计数器重现序号匹配，:optional伪类和:required伪类结合伪元素标记可行性，提升了维护性，主要代码如下
+```html
+<ol class="cs-ques-ul">
+  <li class="cs-ques-li">
+    <input type="radio" name="ques1" required>1-3年
+    <input type="radio" name="ques1" required>3-5年
+    <input type="radio" name="ques1" required>5年以上
+    <!-- 标题后置 -->
+    <h4 class="cs-caption">你从事前端几年了？</h4>
+  </li>
+  ...
+  <li class="cs-ques-li">
+    <textarea></textarea>
+    <!-- 标题后置 -->
+    <h4 class="cs-caption">有什么想说的？</h4>
+  </li>
+</ol>
 ```
+```css
+.cs-ques-li {
+  display: table;
+  width: 100%;
+  counter-reset: quesIndex;
+}
+.cs-ques-li::before {
+  counter-increment: quesIndex;
+  content: counter(quesIndex) ".";
+  /* 序号定位 */
+  position: absolute;
+  top: -.75em;
+  margin: 0 0 0 -20px;
+}
+.cs-caption {
+  display: table-caption;
+  /* 标题显示在上方 */
+  caption-side: top;
+}
+:optional ~ .cs-caption::after {
+  content: "（可选）";
+  color: gray;
+}
+:required ~ .cs-caption::after {
+  content: "（必选）";
+  color: red;
+}
+```
+
+- 用户交互伪类:user-invalid和空值伪类:blank，:user-invalid用于用户显著交互后匹配不正确输入的元素，:blank规范也未成熟，使用:placeholder-shown替代
+---
 ### 
 ---
 ## 10. 树结构伪类

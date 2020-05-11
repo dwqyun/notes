@@ -310,6 +310,44 @@
 
 ## 11. 逻辑组合伪类
 
+### 否定伪类:not()
+
+- :not()伪类匹配与括号内选择器不相符的元素，:not()本身优先级为0，最终选择器的优先级由括号内表达式决定，:not()伪类可以不断级联但不支持复杂的多表达式，只支持简单选择器，如`input:not(:disabled):not(:read-only)`
+
+- :not()伪类最大应用场景是重置CSS样式，可以使代码简洁易读易维护，如禁用按钮:hover样式不生效`.cs-button:not(:disabled):hover { background-color: #eee; }`
+
+### 了解任意匹配伪类:is()
+
+- :any()是:matches()的前身，:matches()又是:is()伪类的前身，3个伪类语法一致，:is()更语义准确和简洁，其余两者已废弃，:is()本身优先级为0，整个选择器的优先级是由:is()参数中优先级最高的选择器决定
+
+- :is()是新伪类，支持赋值选择器会选择器列表，如`:is(article:not([id]), section) p {  }`，目前有用但不迫切需要且未被浏览器全面支持
+
+### 了解任意匹配伪类:where()
+
+- :where()与:is()语法、作用一致，区别在于优先级不一样，:where()伪类优先级永远是0，参数内的选择器优先级被忽略，如`:where(#article) .content {}`优先级等同于.content选择器
+
 ---
 
 ## 12. 其他伪类选择器
+
+### 与作用域相关的伪类
+
+- 参考元素伪类:scope，除IE不支持外其余浏览器都已支持，网页中只有一个CSS作用域使用:scope等同于:root伪类，可以用于缺乏IE浏览器，在CSS中作用有限，但在DOM API中如`querySelector()、querySelectorAll()、matches()、closest()`，此时使用:scope伪类会从原本的页面作用域特性变成DOM API中指代的特定元素，如`document.querySelector('#myId').querySelectorAll(':scope div div');`
+
+- Shadow树根元素伪类:host，Shadow DOM不受全局CSS影响，可以使用:host()伪类匹配Shadow DOM的根元素，:host()伪类对Web Components开放很重要，参数可以传递ID、类名或者属性进行匹配；:host-context()伪类也是用于匹配Shadow DOM根元素，与:host()区别在于其可以借助Shadow DOM根元素的父元素来匹配
+
+### 与全屏相关的伪类:fullscreen
+
+- 桌面浏览器和部分移动端浏览器支持原生全屏效果，通过element.requestFullScreen()让元素全屏显示，element.cancelFullScreen()取消全屏，如点击img元素图片进入全屏状态时使用:fullscreen匹配`:fullscreen .cs-img {}`
+
+### 了解语言相关伪类
+
+- 方向伪类:dir()，语法为`:dir(ltr | rtl)`，可以匹配元素设置了HTML dir属性或CSS direction属性的元素，用于改变元素布局方向，如国际化阿拉伯语镜像
+
+- 语言伪类:lang()，用于匹配指定语言环境下的元素，如`.cs-share-zh:not(:lang(zh)), .cs-share-en:not(:lang(en)) { display: none; }`，借助:lang()伪类呈现不同语言环境下内容，伪类参数中的语言代码无需和HTML lang熟悉值一致，如`lang="zh-cmn-Hans"、lang="zh"`都可以使用:lang(zh)匹配
+
+- 了解资源状态伪类，Video/Audio播放状态伪类:playing和:paused，目前还未得到浏览器支持，:playing用于匹配正在播放的音频元素，包括因为缓存而暂停的音频；:paused匹配处于停止状态的音频元素，包括处于明确停止状态和资源加载但未激活的元素
+
+## 13. 总结
+
+- 理解和思考选择器的使用，会帮助我们更好的完成界面交互效果，以及与HTML、JS解耦开来提升代码可维护性，书中有很多选择器应用场景的干货，需要自己去结合项目场景权衡使用，在实战中磨练提升用户体验

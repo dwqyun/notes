@@ -1,38 +1,16 @@
 # Developer Notes
 
-## [博客专栏](https://www.yuque.com/dwqyun/aaz4ic)
-
----
+## [前端学习](https://www.yuque.com/dwqyun/learn)
 
 ## Javascript
 
----
-
 ## CSS
 
-- [`CSS 选择器世界`读书笔记](markdown/css-selector-world.md)
-
----
+- [《CSS 选择器世界》读书笔记](https://www.yuque.com/dwqyun/learn/ybag5p)
 
 ## HTML
 
----
-
 ## Vue
-
----
-
-## React
-
----
-
-## NodeJS
-
----
-
-## TypeScript
-
----
 
 ## Tool
 

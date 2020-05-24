@@ -13,7 +13,7 @@
 ## 进阶
 
   以工程化的方式组织webpack构建配置和打包webpack优化
-
+  **30 | Scope Hoisting使用和原理分析**
   1. 编写可维护的webpack构建配置
   2. webpack构建速度和体积优化策略
 

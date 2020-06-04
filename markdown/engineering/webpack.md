@@ -9,7 +9,7 @@
 
   1. webpack与构建发展简史
 
-      **为什么需要构建工具**
+     **为什么需要构建工具**
 
       - 转译ES Next语法
       - 转换JSX
@@ -17,7 +17,7 @@
       - 压缩混淆
       - 图片压缩
 
-     **为什么需要构建工具**
+      **为什么选择webpack**
 
      - 社区生态丰富
      - 配置灵活和插件化扩展
@@ -45,14 +45,36 @@
 
      **plugin**  
 
-     - require插件后new实例插入plugin数组使用，插件用于执行范围更广的任务，优化bundle文件，如打包优化，资源管理，注入环境变量，作用于整个构建过程
+     - require插件的模块路径后new实例插入plugin数组使用，插件用于执行范围更广的任务，优化bundle文件，如打包优化，资源管理，注入环境变量，作用于整个构建过程
+
      **mode**  
 
      - 可选值为 `development`、 `production` 、 `none` ，development、 production 会启用 webpack 内置在相应环境下的优化项，默认值为 production
      - 值设置为development会将DefinePlugin 中 process.env.NODE_ENV 的值设置为 development，
      - 值设置为 production 会将DefinePlugin 中 process.env.NODE_ENV 的值设置为 production
 
-  3. webpack进阶用法
+  3. webpack进阶用法  
+
+      **loader解析文件**
+
+     - 解析JS
+       [babel-loader](https://webpack.docschina.org/loaders/babel-loader/)转译 JavaScript 文件，可以在`.babellrc`配置文件使用 options 属性配置presets和plugins来转译ES6或解析JSX语法
+     - 解析CSS
+       [css-loader](https://webpack.docschina.org/loaders/css-loader/)用于加载.css文件并转换为commonjs对象  
+       [style-loader](https://webpack.docschina.org/loaders/style-loader/)将样式通过`<style>`标签插入到head中
+       [postcss-loader](https://webpack.docschina.org/loaders/postcss-loader/)后处理器用于自动补齐CSS属性前缀
+       [sass-loader](https://webpack.docschina.org/loaders/sass-loader/)预处理器，将Sass 编译成 CSS
+     - 解析字体、图片等媒体资源  
+       [file-loader](https://webpack.docschina.org/loaders/file-loader) 生成到输出目录，并返回文件的 public URI  
+       [url-loader](https://webpack.docschina.org/loaders/url-loader) 像 file loader 一样工作，还可以配置文件大小限制返回 base64 数据
+
+     **文件指纹**
+
+     - 通常用于文件版本管理
+     - 生成方式
+       Hash：与项目构建相关，项目文件有修改则项目构建时hash会更改，如用于图片文件输出name使用`[hash]`  
+       Chunkhash：与webpack打包chunk相关，entry不同则生成不同chunkhash值，如使用CSS文件指纹  
+       Contenthash：根据文件内容定义hash，文件内容不变则contenthash不变，如用于JS文件output.filename中`[contenthash:8]`
 
 ## 进阶
 

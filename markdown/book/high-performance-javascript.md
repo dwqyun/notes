@@ -92,7 +92,7 @@
   
   渲染树变化的排队与刷新，浏览器会通过队列化修改并批量执行来优化重排过程，但你可能不经意间强制熟悉队列并要求任务立即执行，如获取元素布局信息的操作会导致队列刷新，`(offset|scroll|client)Top、(offset|scroll|client)Left、(offset|scroll|client)Width、(offset|scroll|client)Height、getComputedStyle()|currentStyle`等属性和方法需要返回最新布局信息，需要浏览器刷新队列触发重排以返回正确结果  
 
-- **`编程提示 11`** 最小化重排和重绘，
+- **`编程提示 11`** 最小化重排和重绘
 
   **事件委托**  
 

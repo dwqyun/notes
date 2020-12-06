@@ -113,6 +113,7 @@ var countEval = function (s, result) {
 ```
 
 ```css
+/* 使用 smooth 平滑滚动则分段函数指定时间改变scrollTop/scrollLeft不生效 */
 .tab-list {
   overflow-x: scroll;
   scroll-behavior: smooth;
@@ -131,7 +132,7 @@ const posX = offsetLeft + offsetWidth / 2 - scrollBoxWidth / 2;
  * 横纵向滚动 参考ivew scrollTop方法(https://github.com/iview/iview/blob/2.0/src/utils/assist.js)
  *
  * @param {滚动参数} { el, from = 0, to = 0, isHorizontal = false, duration = 300 }
- * @return {Promise} 
+ * @return {Promise}
  */
 const scrollToCenter = ({ el, from = 0, to = 0, isHorizontal = false, duration = 300 }) => {
   return new Promise((resolve, reject) => {

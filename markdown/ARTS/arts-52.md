@@ -66,6 +66,11 @@ var combinationSum3 = function (k, n) {
 
 - swiper无障碍可以开启`a11y`选项，slide可设置aria-hidden和tabindex值，slide可设置tabpanel role，分页器可设置tablist
 
+```html
+<!-- vue中可使用v-bind动态添加tabindex属性 替代DOM API设置属性操作 -->
+<swiper-slide :tabindex="index === activeIndex ? -1 : undefined"></swiper-slide>
+```
+
 ```js
 /* 参见 issues https://github.com/nolimits4web/swiper/issues/3149 */
 slideChange() {

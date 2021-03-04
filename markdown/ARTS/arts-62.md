@@ -66,11 +66,11 @@ var integerReplacement = function (n) {
 
 ## Tip
 
-- 使用vue-cli构建项目后，运行 `vue-cli-service build` 可以添加 --target 选项构建目标，如目标值为`lib`，可将指定入口构建为[库](https://cli.vuejs.org/zh/guide/build-targets.html#%E5%BA%93)输出，CSS分离可以在vue.config.js 中设置` css: { extract: true } `，Lib打包命令还可以配置生成库js名， babel引用库中的umd.js文件若import和require混用会出现错误，可以在`.babelrc`添加`modules: "commonjs"`配置
+- 使用vue-cli构建项目后，运行 `vue-cli-service build` 可以添加 --target 选项构建目标，如目标值为`lib`，可将指定入口构建为[库](https://cli.vuejs.org/zh/guide/build-targets.html#%E5%BA%93)输出，CSS分离可以在vue.config.js 中设置` css: { extract: true } `，Lib打包命令还可以配置生成库js名， babel引用库中的umd.js文件若import和require混用会出现错误，可以在`.babelrc`添加`modules: "commonjs"`配置，或在引用的处添加`sourceType: unambiguous`配置；Lib项目package.json中可以设置`main: "./lib/myLib.umd.js"`和`module: "./src/index.js"`配置不同的导出方式，`module`支持esm import引用
   
 ```bash
 <!-- 打包lib命令 -->
-vue-cli-service build --target lib --name myLib src/index.js
+vue-cli-service build --target lib --formats umd --name myLib --entry src/index.js
 ```
 
 ```js

@@ -72,7 +72,7 @@ var reversePairs = function (nums) {
 
 ## Tip
 
-- CSS实现图标变色方案，一是filter的[drop-shadow()](https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter-function/drop-shadow)，投影是原图非透明部分用指定颜色绘制合成在原图像下，Chrome下需要配合透明边框使用，在移动端兼容性还不够良好；二是CSS3 mask遮罩， 跟filter类似需要图片支持透明，目标图标颜色基于非透明区域显示，属性设置类似background；三是background-blend-mode混合模式，需要限定图标为纯黑或纯白；四是兼容性良好的SVG，配合fill、color控制颜色；PNG图片使用mask方案在移动端兼容性和写法为最佳，Chrome下都需要添加-webkit-前缀，mask-image和background-color分开书写，不用mask简写避免兼容性问题，Chrome下mask图片跨域时要求服务器设置Access-Control-Allow-Origin共享图片给指定origin
+- CSS实现图标变色方案，一是filter的[drop-shadow()](https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter-function/drop-shadow)，投影是原图非透明部分用指定颜色绘制合成在原图像下，Chrome下需要配合透明边框使用，在移动端兼容性还不够良好；二是CSS3 mask遮罩， 跟filter类似需要图片支持透明，目标图标颜色基于非透明区域显示，属性设置类似background；三是background-blend-mode混合模式，需要限定图标为纯黑或纯白；四是兼容性良好的SVG，配合fill、color控制颜色；PNG图片使用mask方案在移动端兼容性和写法为最佳，Chrome下都需要添加-webkit-前缀，mask-image和background-color分开书写，不用mask简写避免兼容性问题，Chrome下mask图片跨域时要求服务器设置Access-Control-Allow-Origin共享图片给指定origin，若image、background-image等请求缓存过图片，且服务器设置了Vary头则同一图片会请求两次，一次不带origin一次携带标头origin，可以使用link preload加载带origin的图片请求
 
 ```css
 /* 参考 https://www.zhangxinxu.com/wordpress/2018/11/css-change-icon-color/ */
